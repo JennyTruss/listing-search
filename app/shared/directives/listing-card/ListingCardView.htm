@@ -1,0 +1,17 @@
+<div class="card-deck">
+  <div class="card card-listing" ng-click="showListing(item.id)" ng-repeat="item in info">
+    <p class="listing-price">
+      {{item.price | currency:'$':0}}
+    </p>
+    <div class="listing-top">
+      <img ng-show="item.photo.length" ng-src="{{item.photo}}">
+      <img ng-hide="item.photo.length" src="assets/img/placeholder.png">
+    </div>
+    <p class="listing-title">
+      {{item.details.Year}} {{item.details.Make}} {{item.details.Model}}
+    </p>
+    <p class="listing-location" ng-show="item.details.location.length">
+      {{item.location}}
+    </p>
+  </div>
+</div>

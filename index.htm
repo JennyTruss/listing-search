@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags always come first -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <base href="/">
+    <title>Listing Search (Demo)</title>
+    <link rel="icon" href="assets/img/icon.png" type="image/x-icon">
+
+    <!-- Google Fonts : Lobster, Raleway -->
+    <link href='https://fonts.googleapis.com/css?family=Lobster|Raleway:400,600,800,900,700,300' rel='stylesheet' type='text/css'>
+    <!-- Site specific CSS : Compiled with SASS. Includes Bootstrap and FontAwesome -->
+    <link rel="stylesheet" href="assets/css/main.css">
+
+    <!-- AngularJS -->
+    <script src="app/vendor/angular.min.js"></script>
+    <script src="app/vendor/ui-router.min.js"></script>
+    <script src="app/vendor/ui-bootstrap-tpls-1.1.1.js"></script>
+    <script src="app/vendor/angular-animate.js"></script>
+    <script src="app/vendor/angular-resource.js"></script>
+  </head>
+
+  <body ng-app="ListingSearch">
+    <!-- container for the view change -->
+    <div ui-view></div>
+
+
+<!-- ANGULARJS SITE SPECIFIC SCRIPTS -->
+    <!-- Module -->
+    <script src="app/app.js"></script>
+    <!-- Directives -->
+    <script src="app/shared/directives/external/angular-google-maps.js"></script>
+    <script src="app/shared/directives/listing-card/ListingCardDirective.js"></script>
+    <!-- Services -->
+    <script src="app/shared/services/external/eBayAPI.js"></script>
+    <script src="app/shared/services/external/ZipCodeAPI.js"></script>
+    <script src="app/components/contact/ContactService.js"></script>
+    <script src="app/components/home/HomeService.js"></script>
+    <script src="app/components/listings/ListingsService.js"></script>
+    <script src="app/components/photo-gallery/PhotoGalleryService.js"></script>
+    <!-- Controllers -->
+    <script src="app/components/contact/ContactController.js"></script>
+    <script src="app/components/error/ErrorController.js"></script>
+    <script src="app/components/home/HomeController.js"></script>
+    <script src="app/components/listings/DetailController.js"></script>
+    <script src="app/components/listings/ListingsController.js"></script>
+    <script src="app/components/photo-gallery/PhotoGalleryController.js"></script>
+  </body>
+</html>
