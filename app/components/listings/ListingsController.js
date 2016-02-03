@@ -105,7 +105,7 @@ app.controller('ListingsController', [
         searchData : $scope.searchData
       }
       HomeService.goToNext(toSend);
-      $state.go('listings');
+      $state.reload('listings');
     };
   }
 ]);

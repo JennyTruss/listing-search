@@ -11,7 +11,7 @@
     <div class="btn-group dropdown-group" uib-dropdown>
       <button id="selectMake" type="button" class="btn btn-dropdown" uib-dropdown-toggle ng-disabled="!searchData.category.id">{{searchData.make.title}}</button>
       <ul uib-dropdown-menu role="menu" aria-labelledby="selectMake">
-        <li role="menuitem" ng-repeat="category in makeCategories" ng-click="selectCategory($index, 'top')">{{category.name}}</li>
+        <li role="menuitem" ng-repeat="category in makeCategories" ng-click="selectCategory($index, 'make')">{{category.name}}</li>
       </ul>
     </div>
   </div>
@@ -19,7 +19,7 @@
     <div class="btn-group dropdown-group" uib-dropdown>
       <button id="selectModel" type="button" class="btn btn-dropdown" uib-dropdown-toggle ng-disabled="!searchData.make.id">{{searchData.model.title}}</button>
       <ul uib-dropdown-menu role="menu" aria-labelledby="selectModel">
-        <li role="menuitem" ng-repeat="category in modelCategories" ng-click="selectCategory($index, 'top')">{{category.name}}</li>
+        <li role="menuitem" ng-repeat="category in modelCategories" ng-click="selectCategory($index, 'model')">{{category.name}}</li>
       </ul>
     </div>
   </div>
