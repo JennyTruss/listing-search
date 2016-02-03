@@ -11,8 +11,9 @@ app.controller('HomeController', [
   '$scope',
   '$timeout',
   '$window',
+  '$state',
   'HomeService',
-  function ($scope, $timeout, $window, HomeService) {
+  function ($scope, $timeout, $window, $state, HomeService) {
     $scope.listLimit = Math.floor($window.innerWidth / 196);
     $scope.requestAmount = Math.floor($scope.listLimit/3);
     $scope.topListings = HomeService.getRecentListings($scope.requestAmount, 1);
@@ -29,51 +30,69 @@ app.controller('HomeController', [
       },0);
     });
 
-    $scope.topCategory = 0;
-    $scope.makeCategory = 0;
-    $scope.modelCategory = 0;
     $scope.topCategories = HomeService.getTopCategories();
-    $scope.makeSelect = 'Select Make to Search';
     $scope.makeCategories = [{id:0, name:'Select a Category'}];
-    $scope.modelSelect = 'Select Model to Search';
-    $scope.modelCategories = [{id:0, name:'Select a Make Above'}];
+    $scope.modelCategories = [{id:0, name:'Select a Make'}];
+
+    $scope.searchData = {
+      category : {
+        id : 0,
+        title : ''
+      },
+      make : {
+        id : 0,
+        title : 'Select Make to Search',
+      },
+      model : {
+        id : 0,
+        title : 'Select Model to Search'
+      },
+      keywords : '',
+      minPrice : '',
+      maxPrice : ''
+    };
     //
     $scope.selectCategory = function (id, type) {
       // change the appropriate element based on the selection type
       switch(type) {
         case 'top':
           $timeout(function () {
-            $scope.makeSelect = 'Select Make to Search';
-            $scope.modelSelect = 'Select Model to Search';
-            $scope.makeCategory = 0;
-            $scope.modelCategory = 0;
-            $scope.modelCategories = [{id:0, name:'Select a Make Above'}];
-            $scope.topCategory = $scope.topCategories[id].id;
-            $scope.topSelect = $scope.topCategories[id].name;
-            $scope.makeCategories = HomeService.getSubCategories($scope.topCategory);
+            $scope.searchData.category.id = $scope.topCategories[id].id;
+            $scope.searchData.category.title = $scope.topCategories[id].name;
+            $scope.searchData.model.id = 0;
+            $scope.searchData.make.title = 'Select Make to Search';
+            $scope.searchData.model.id = 0;
+            $scope.searchData.model.title = 'Select Model to Search';
+            $scope.modelCategories = [{id:0, name:'Select a Make'}];
+            $scope.makeCategories = HomeService.getSubCategories($scope.searchData.category.id);
           }, 0);
           break;
         case 'make':
           $timeout(function () {
-            $scope.modelSelect = 'Select Model to Search';
-            $scope.modelCategory = 0;
-            $scope.modelCategories = [{id:0, name:'Select a Make Above'}];
-            $scope.makeCategory = $scope.makeCategories[id].id;
-            $scope.makeSelect = $scope.makeCategories[id].name;
-            $scope.modelCategories = HomeService.getSubCategories($scope.makeCategory);
-            if ( !$scope.modelCategories.length ) {
-              $scope.modelCategories = [{id:0, name:'No Models to Choose From'}];
-            }
+            $scope.searchData.make.id = $scope.makeCategories[id].id;
+            $scope.searchData.make.title = $scope.makeCategories[id].name;
+            $scope.searchData.model.id = 0;
+            $scope.searchData.model.title = 'Select Model to Search';
+            $scope.modelCategories = [{id:0, name:'Select a Make'}];
+            $scope.modelCategories = HomeService.getSubCategories($scope.searchData.make.id);
           }, 0);
           break;
         case 'model':
-          $scope.modelCategory = $scope.modelCategories[id].id;
-          $scope.modelSelect = $scope.modelCategories[id].name;
+          $scope.searchData.model.id = $scope.modelCategories[id].id;
+          $scope.searchData.model.title = $scope.modelCategories[id].name;
           break;
       }
     };
 
-    $scope.toggled = function(open) {
-    }
+    $scope.currentState = 'home';
+
+    $scope.searchListings = function () {
+      var toSend = {
+        referringUrl : $scope.currentState,
+        searchData : $scope.searchData
+      };
+      HomeService.goToNext(toSend);
+      $state.go('listings');
+    };
   }
 ]);

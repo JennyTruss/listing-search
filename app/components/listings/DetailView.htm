@@ -1,0 +1,59 @@
+<div class="top-bar">
+  <a href ng-click="goBack()" class="return-button">
+    <i class="fa fa-angle-double-left"></i>
+    Go Back
+  </a>
+</div>
+
+<div class="container detail-page">
+  <h1>{{detail.Title}}</h1>
+  <h2 class="listing-price">{{detail.CurrentPrice.Value | currency}} {{detail.CurrentPrice.CurrencyID}}</h2>
+  <div class="row">
+    <div class="col-sm-3">
+      <div class="gallery-thumbnails">
+        <img ng-src="{{pic}}" class="img-thumbnail" ng-click="showImage(pic)" ng-repeat="pic in detail.PictureURL">
+      </div>
+    </div>
+    <div class="col-sm-6 photo-holder">
+      <img ng-src="{{largeImage}}" class="center-block img-responsive" ng-show="detail.PictureURL.length">
+    </div>
+    <div class="col-sm-3">
+      <div class="card seller-info">
+        <h2 class="h5 card-header">
+          <a href="{{seller.MyWorldURL}}" target="_blank">{{seller.UserID}}</a>
+        </h2>
+        <div class="card-block">
+          <p class="card-text">(123) 555-9876</p>
+          <p class="card-text" ng-show="detail.Location.length">{{detail.Location}}</p>
+          <p class="card-text">
+            <a href="{{seller.FeedbackDetailsURL}}" target="_blank">Seller Reviews</a>
+          </p>
+          <p class="card-text">
+            <a href="{{seller.SellerItemsURL}}" target="_blank">Other items for sale by {{seller.UserID}}</a>
+          </p>
+          <button type="button" class="btn btn-default btn-block" ng-click="contact(seller.UserID)">Contact {{seller.UserID}}</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-8">
+      <div class="card listing-description">
+        <div class="card-block">
+          <p class="lead card-text" ng-bind-html="detail.Description | renderHTML"></p>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-4">
+      <div class="info-details">
+        <div class="card" ng-repeat="info in detail.ItemSpecifics.NameValueList">
+          <p class="card-heading">{{info.Name}}</p>
+          <p class="card-text" ng-repeat="value in info.Value" ng-bind-html="value | renderHTML"></p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>

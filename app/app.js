@@ -45,12 +45,11 @@ app.config(function($stateProvider, $urlRouterProvider, $locationProvider) {
     templateUrl : viewsRoot + 'error/ErrorView.htm',
     controller : 'ErrorController'
   });
+});
 
-  /*
-  uiGmapGoogleMapApiProvider.configure({
-    key : 'AIzaSyDMYM-Ss53SzB7_O80J5hQ8v4hibTX50wQ',
-    v : '3.20',
-    libraries : 'places'
-  });
-  */
+
+app.filter('renderHTML', function ($sce) {
+  return function (val) {
+    return $sce.trustAsHtml(val);
+  };
 });

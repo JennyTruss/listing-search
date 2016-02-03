@@ -12,7 +12,9 @@
 app.service('HomeService', [
   'eBayAPI',
   'ZipCodeAPI',
-  function(eBayAPI, ZipCodeAPI) {
+  '$rootScope',
+  '$timeout',
+  function(eBayAPI, ZipCodeAPI, $rootScope, $timeout) {
     service = {};
     // show loading animation while the calls are made
     var showLoading = true;
@@ -77,8 +79,20 @@ app.service('HomeService', [
       var allListings = [];
       // loop through each of the top categories and get the selected number of listings
       for ( var i=0; i<topCategoryIDs.length; i++ ) {
+        var searchData = {
+          categoryID : topCategoryIDs[i],
+          makeID : 0,
+          modelID : 0,
+          keywords : '',
+          minPrice : 0,
+          maxPrice : 0,
+          sendCategoryID : topCategoryIDs[i],
+          qty : qty,
+          set : set,
+          sortBy : 'StartTimeNewest'
+        };
         // get the listings for the current category
-        var categoryListings = eBayAPI.getListings(topCategoryIDs[i], qty, set, 'StartTimeNewest', '');
+        var categoryListings = eBayAPI.getListings(searchData);
         // wait for the data to finish fetching and loading
         categoryListings.then( function (data) {
           // get the array of listings
@@ -139,6 +153,14 @@ app.service('HomeService', [
       }
       return array;
     }
+
+    // Service to broadcast the search parameters to the listing page
+    service.goToNext = function(data) {
+      service.sendData = data;
+    };
+    service.getData = function () {
+      return service.sendData;
+    };
 
     //return service;
     return service;

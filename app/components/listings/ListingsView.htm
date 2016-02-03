@@ -1,0 +1,48 @@
+<div class="search-form">
+  <div class="form-item">
+    <div class="btn-group dropdown-group" uib-dropdown>
+      <button id="selectCategory" type="button" class="btn btn-dropdown" uib-dropdown-toggle>{{searchData.category.title}}</button>
+      <ul uib-dropdown-menu role="menu" aria-labelledby="selectCategory">
+        <li role="menuitem" ng-repeat="category in topCategories" ng-click="selectCategory($index, 'top')">{{category.name}}</li>
+      </ul>
+    </div>
+  </div>
+  <div class="form-item">
+    <div class="btn-group dropdown-group" uib-dropdown>
+      <button id="selectMake" type="button" class="btn btn-dropdown" uib-dropdown-toggle ng-disabled="!searchData.category.id">{{searchData.make.title}}</button>
+      <ul uib-dropdown-menu role="menu" aria-labelledby="selectMake">
+        <li role="menuitem" ng-repeat="category in makeCategories" ng-click="selectCategory($index, 'top')">{{category.name}}</li>
+      </ul>
+    </div>
+  </div>
+  <div class="form-item">
+    <div class="btn-group dropdown-group" uib-dropdown>
+      <button id="selectModel" type="button" class="btn btn-dropdown" uib-dropdown-toggle ng-disabled="!searchData.make.id">{{searchData.model.title}}</button>
+      <ul uib-dropdown-menu role="menu" aria-labelledby="selectModel">
+        <li role="menuitem" ng-repeat="category in modelCategories" ng-click="selectCategory($index, 'top')">{{category.name}}</li>
+      </ul>
+    </div>
+  </div>
+  <div class="form-item">
+    <input type="text" name="keywords" ng-model="reSearchData.keywords" class="form-control" placeholder="Keywords.." ng-disabled="!searchData.category.id" maxlength="350">
+  </div>
+  <div class="form-item">
+    <div class="input-group">
+      <input type="text" name="minPrice" ng-model="reSearchData.minPrice" class="form-control" placeholder="Min Price" numbers-only ng-disabled="!searchData.category.id">
+      <input type="text" name="maxPrice" ng-model="reSearchData.maxPrice" class="form-control" placeholder="Max Price" numbers-only ng-disabled="!searchData.category.id">
+    </div>
+  </div>
+  <div class="form-item-btn">
+    <button type="button" class="btn btn-search" ng-click="searchListings()" ng-disabled="!searchData.category.id">Search</button>
+  </div>
+</div>
+
+<div class="container">
+  <div class="no-results" ng-hide="showResults">
+    No Results. Please try again.
+  </div>
+
+  <div class="search-results" ng-show="showResults">
+    <listing-card info="listings" class="card-columns"></listing-card>
+  </div>
+</div>

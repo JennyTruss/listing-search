@@ -283,7 +283,11 @@
 @include media-breakpoint-up(sm) {
   .card-columns {
     column-count: 3;
-    column-gap: 1.25rem;
+    -moz-column-count: 3;
+    -webkit-column-count: 3;
+    column-gap: 1.75rem;
+    -moz-column-gap: 1.75rem;
+    -webkit-column-gap: 1.75rem;
 
     .card {
       display: inline-block;

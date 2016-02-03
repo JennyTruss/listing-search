@@ -35,38 +35,25 @@ app.factory('eBayAPI', [
       });
 
       return deferred.promise;
-  /*
-      apiResults.then(function(data) {
-        // categories not to add
-        var excludeList = [7251,6472,177131];
-        var returnResults = [];
-        var parentCategory = data;
-
-        if ( getChildren ) {
-          angular.forEach(parentCategory, function (obj) {
-            if ( obj.CategoryID != categoryID && excludeList.indexOf(obj.CategoryID) < 0 ) {
-              if ( returnResults.length ) {
-                returnResults.push(obj);
-              }
-              else {
-                returnResults = [obj];
-              }
-            }
-          });
-
-          return returnResults;
-        }
-        else {
-          return parentCategory[0];
-        }
-
-      });
-      */
     };
 
     // Get list of items to based on category
-    service.getListings = function (categoryID, qty, pageNumber, sortBy, keywords) {
-      var apiUrl = 'http://svcs.ebay.com/services/search/FindingService/v1?SERVICE-VERSION=1.12.0&RESPONSE-DATA-FORMAT=JSON&REST-PAYLOAD&callback=JSON_CALLBACK&SECURITY-APPNAME=' + appID + '&OPERATION-NAME=findItemsAdvanced&itemFilter(0).name=ExcludeCategory&itemFilter(0).value(0)=7251&itemFilter(0).value(1)=6472&itemFilter(0).value(2)=177131&itemFilter(1).name=HideDuplicateItems&itemFilter(1).value=true&itemFilter(2).name=ListingType&itemFilter(2).value=FixedPrice&itemFilter.paramName=ListingStatus&itemFilter.paramValue=Active&categoryId=' + categoryID + '&paginationInput.entriesPerPage=' + qty + '&paginationInput.pageNumber=' + pageNumber + '&sortOrder=' + sortBy;
+    service.getListings = function (searchData) {
+      var apiUrl = 'http://svcs.ebay.com/services/search/FindingService/v1?SERVICE-VERSION=1.12.0&RESPONSE-DATA-FORMAT=JSON&REST-PAYLOAD&callback=JSON_CALLBACK&SECURITY-APPNAME=' + appID + '&OPERATION-NAME=findItemsAdvanced&categoryId=' + searchData.sendCategoryID + '&paginationInput.entriesPerPage=' + searchData.qty + '&paginationInput.pageNumber=' + searchData.set + '&sortOrder=' + searchData.sortBy + '&itemFilter(0).name=ExcludeCategory&itemFilter(0).value(0)=7251&itemFilter(0).value(1)=6472&itemFilter(0).value(2)=177131&itemFilter(1).name=HideDuplicateItems&itemFilter(1).value=true&itemFilter(2).name=ListingType&itemFilter(2).value=FixedPrice&itemFilter(0).paramName=ListingStatus&itemFilter(0).paramValue=Active';
+
+      var itemFilter = 3;
+      if ( searchData.minPrice > 0 ) {
+        apiUrl += '&itemFilter(' + itemFilter + ').name=MinPrice&itemFilter(' + itemFilter + ').value=' + searchData.minPrice;
+        itemFilter++;
+      }
+      if ( searchData.maxPrice > 0 ) {
+        apiUrl += '&itemFilter(' + itemFilter + ').name=Max_Price&itemFilter(' + itemFilter + ').value=' + searchData.maxPrice;
+        itemFilter++;
+      }
+      if ( searchData.keywords != undefined ) {
+        apiUrl += '&keywords=' + searchData.keywords;
+      }
+
       var deferred = $q.defer();
 
       $http({
@@ -86,25 +73,6 @@ app.factory('eBayAPI', [
       });
 
       return deferred.promise;
-/*
-      apiResults.then(function (data) {
-        var searchResult = data.findItemsAdvancedResponse[0].searchResult[0].item;
-        var itemIds ='';
-        if ( searchResult.length ) {
-          for ( var i=0; i<searchResult.length; i++ ) {
-            if ( itemIds.length ) {
-              itemIds += ',' + searchResult[i].itemId[0];
-            }
-            else {
-              itemIds = searchResult[i].itemId[0];
-            }
-          }
-        }
-        console.log(itemIds);
-        console.log(service.getItemDetails(itemIds));
-        return service.getItemDetails(itemIds);
-      });
-      */
     };
 
     // Get details for a specific item
@@ -125,20 +93,27 @@ app.factory('eBayAPI', [
       });
 
       return deferred.promise;
-/*
-        var returnResults = [];
-      apiResults.then(function(data) {
-        var thisItem = data;
+    };
 
-        if ( angular.isArray(thisItem) ) {
-          for ( var i=0; i<thisItem.length; i++ ) {
-            returnResults.push( thisItem[i] );
-          }
-        }
-        console.log(returnResults);
-        return returnResults;
+    // Seller info
+    service.getSellerInfo = function (userID) {
+      var apiUrl = 'http://open.api.ebay.com/shopping?responseencoding=JSON&callbackname=JSON_CALLBACK&version=525&callname=GetUserProfile&appid=' + appID + '&UserID=' + userID + '&IncludeSelector=Details';
+
+      var deferred = $q.defer();
+
+      $http({
+        method : 'JSONP',
+        url : apiUrl,
+        responseType : 'json'
+      })
+      .success(function (data) {
+        deferred.resolve(data.User);
+      })
+      .error(function (err) {
+        deferred.reject('Error');
       });
-      */
+
+      return deferred.promise;
     };
 
     return service;

@@ -1,2 +1,11 @@
-@import "vendor";
-@import "custom";
+// Bootstrap CSS
+@import "vendor/bootstrap4/bootstrap-flex";
+
+// FontAwesome
+@import "vendor/fontawesome/font-awesome";
+
+// Custom for this site
+@import "modules/mixins";
+@import "modules/colorPalette";
+@import "partials/site-wide";
+@import "partials/home-view";

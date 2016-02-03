@@ -1,7 +1,7 @@
 <div class="wrapper">
   <div class="wrapper-top wrapper-sticky">
     <div class="container-fluid">
-      <listing-card info="topListings"></listing-card>
+      <listing-card info="topListings" class="card-deck"></listing-card>
     </div>
   </div>
 
@@ -14,9 +14,9 @@
         </div>
 
         <div class="search-dropdown">
-          <div class="btn-group btn-group-lg" uib-dropdown on-toggle="toggled(open)">
-            <button id="selectMake" type="button" class="btn btn-dropdown" uib-dropdown-toggle ng-disabled="!topCategory">
-              {{makeSelect}}
+          <div class="btn-group btn-group-lg dropdown-group" uib-dropdown on-toggle="toggled(open)">
+            <button id="selectMake" type="button" class="btn btn-dropdown" uib-dropdown-toggle ng-disabled="!searchData.category.id">
+              {{searchData.make.title}}
             </button>
             <ul uib-dropdown-menu role="menu" aria-labelledby="selectMake">
               <li role="menuitem" ng-repeat="category in makeCategories" ng-click="selectCategory($index,'make')">
@@ -25,9 +25,9 @@
             </ul>
           </div>
 
-          <div class="btn-group btn-group-lg" uib-dropdown on-toggle="toggled(open)">
-            <button id="selectModel" type="button" class="btn btn-dropdown" uib-dropdown-toggle ng-disabled="!makeCategory">
-              {{modelSelect}}
+          <div class="btn-group btn-group-lg dropdown-group" uib-dropdown on-toggle="toggled(open)">
+            <button id="selectModel" type="button" class="btn btn-dropdown" uib-dropdown-toggle ng-disabled="!searchData.make.id">
+              {{searchData.model.title}}
             </button>
             <ul uib-dropdown-menu role="menu" aria-labelledby="selectModel">
               <li role="menuitem" ng-repeat="category in modelCategories" ng-click="selectCategory($index,'model')">
@@ -38,11 +38,19 @@
         </div>
 
         <div class="form-group">
-          <input type="text" class="form-control form-control-lg" placeholder="Keywords..">
+          <div class="text-inputs">
+            <input type="text" name="keywords" ng-model="searchData.keywords" class="form-control form-control-lg" placeholder="Keywords.." ng-disabled="!searchData.category.id" maxlength="350">
+          </div>
+          <div class="text-inputs">
+            <div class="input-group input-group-lg">
+              <input type="text" name="minPrice" ng-model="searchData.minPrice" class="form-control form-control-lg" placeholder="Min Price" numbers-only ng-disabled="!searchData.category.id">
+              <input type="text" name="maxPrice" ng-model="searchData.maxPrice" class="form-control form-control-lg" placeholder="Max Price" numbers-only ng-disabled="!searchData.category.id">
+            </div>
+          </div>
         </div>
 
         <div class="form-group">
-          <button type="button" class="btn btn-lg btn-search" ng-click="searchListings()">Search</button>
+          <button type="button" class="btn btn-lg btn-search" ng-click="searchListings()" ng-disabled="!searchData.category.id">Search</button>
         </div>
       </div>
     </div>
@@ -50,7 +58,7 @@
 
   <div class="wrapper-bottom wrapper-sticky">
     <div class="container-fluid">
-      <listing-card info="btmListings"></listing-card>
+      <listing-card info="btmListings" class="card-deck"></listing-card>
     </div>
   </div>
 </div>
