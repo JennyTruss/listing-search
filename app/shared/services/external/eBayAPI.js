@@ -42,15 +42,15 @@ app.factory('eBayAPI', [
       var apiUrl = 'http://svcs.ebay.com/services/search/FindingService/v1?SERVICE-VERSION=1.12.0&RESPONSE-DATA-FORMAT=JSON&REST-PAYLOAD&callback=JSON_CALLBACK&SECURITY-APPNAME=' + appID + '&OPERATION-NAME=findItemsAdvanced&categoryId=' + searchData.sendCategoryID + '&paginationInput.entriesPerPage=' + searchData.qty + '&paginationInput.pageNumber=' + searchData.set + '&sortOrder=' + searchData.sortBy + '&itemFilter(0).name=ExcludeCategory&itemFilter(0).value(0)=7251&itemFilter(0).value(1)=6472&itemFilter(0).value(2)=177131&itemFilter(1).name=HideDuplicateItems&itemFilter(1).value=true&itemFilter(2).name=ListingType&itemFilter(2).value=FixedPrice&itemFilter(0).paramName=ListingStatus&itemFilter(0).paramValue=Active';
 
       var itemFilter = 3;
-      if ( searchData.minPrice > 0 ) {
+      if ( searchData.minPrice > 0 && searchData.minPrice != '' ) {
         apiUrl += '&itemFilter(' + itemFilter + ').name=MinPrice&itemFilter(' + itemFilter + ').value=' + searchData.minPrice;
         itemFilter++;
       }
-      if ( searchData.maxPrice > 0 ) {
-        apiUrl += '&itemFilter(' + itemFilter + ').name=Max_Price&itemFilter(' + itemFilter + ').value=' + searchData.maxPrice;
+      if ( searchData.maxPrice > 0 && searchData.maxPrice != '' ) {
+        apiUrl += '&itemFilter(' + itemFilter + ').name=MaxPrice&itemFilter(' + itemFilter + ').value=' + searchData.maxPrice;
         itemFilter++;
       }
-      if ( searchData.keywords != undefined ) {
+      if ( searchData.keywords != undefined && searchData.keywords != '' ) {
         apiUrl += '&keywords=' + searchData.keywords;
       }
 
