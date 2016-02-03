@@ -1,0 +1,51 @@
+<div class="container-fluid">
+  <h1>
+    Contact {{userID}}<br>
+    <small>All fields are required.</small>
+  </h1>
+
+  <hr>
+
+  <form name="contactForm" class="contact-form" ng-show="showForm" ng-submit="sendMessage()" novalidate>
+    <div class="form-group form-group-lg">
+      <label class="control-label">Email:</label>
+      <input type="email" ng-model="user.email" name="uEmail" class="form-control" placeholder="you@website.com" required>
+      <div ng-show="contactForm.$submitted || contactForm.uEmail.$touched">
+        <p class="alert alert-danger" ng-show="contactForm.uEmail.$error.required">Enter an email for the seller to contact you back.</p>
+        <p class="alert alert-danger" ng-show="contactForm.uEmail.$error.email">Enter a valid email.</p>
+      </div>
+    </div>
+
+    <div class="form-group form-group-lg">
+      <label class="control-label">Name:</label>
+      <input type="text" ng-model="user.name" name="uName" class="form-control" required>
+      <div ng-show="contactForm.$submitted || contactForm.uName.$touched">
+        <p class="alert alert-danger" ng-show="contactForm.uName.$error.required">Tell the seller your name.</p>
+      </div>
+    </div>
+
+    <div class="form-group form-group-lg">
+      <label class="control-label">Message:</label>
+      <textarea ng-model="user.message" name="uMessage" class="form-control" rows="5" placeholder="What would you like to ask the seller?" required></textarea>
+      <div ng-show="contactForm.$submitted || contactForm.uMessage.$touched">
+        <p class="alert alert-danger" ng-show="contactForm.uMessage.$error.required">We can't send a message to the seller without a message.</p>
+      </div>
+    </div>
+
+    <div class="form-group form-group-lg">
+      <button type="submit" class="btn btn-lg btn-block btn-search" ng-disabled="!contactForm.$valid">Send Message</button>
+    </div>
+  </form>
+
+  <div ng-hide="showForm">
+    <p class="lead alert alert-success text-xs-center">Your message to {{userID}} has been sent!</p>
+
+    <p><strong>From:</strong> {{user.name}} &lt;{{user.email}}&gt;</p>
+    <p><strong>Message:</strong><br>{{user.message}}</p>
+
+    <hr>
+    <p class="text-sm-right text-xs-center">
+      <button type="button" class="btn btn-lg btn-block btn-outline-default" ng-click="closeForm()">Close Window</button>
+    </p>
+  </div>
+</div>

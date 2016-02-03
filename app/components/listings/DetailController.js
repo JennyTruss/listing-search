@@ -11,9 +11,10 @@ app.controller('DetailController', [
   '$scope',
   '$stateParams',
   '$state',
+  '$uibModal',
   'eBayAPI',
   'HomeService',
-  function ($scope, $stateParams, $state, eBayAPI, HomeService) {
+  function ($scope, $stateParams, $state, $uibModal, eBayAPI, HomeService) {
     eBayAPI.getItemDetails($stateParams.id).then(function (data) {
       $scope.detail = data[0];
       $scope.largeImage = $scope.detail.PictureURL[0];
@@ -36,6 +37,27 @@ app.controller('DetailController', [
       };
       HomeService.goToNext(toSend);
       $state.go(toSend.referringUrl);
+    };
+
+    $scope.contact = function(userID) {
+      $scope.userID = userID;
+      var modalInstance = $uibModal.open({
+        animation: true,
+        templateUrl: 'app/components/contact/ContactView.htm',
+        controller: 'ContactController',
+        size: '',
+        resolve: {
+          userID: function () {
+            return $scope.userID;
+          }
+        }
+      });
+
+      modalInstance.result.then(function (selectedItem) {
+        $scope.selected = selectedItem;
+      }, function () {
+        $log.info('Modal dismissed at: ' + new Date());
+      });
     };
   }
 ]);
