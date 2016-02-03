@@ -31,12 +31,17 @@ app.controller('DetailController', [
     $scope.sentData = HomeService.getData();
 
     $scope.goBack = function () {
-      var toSend = {
-        referringUrl : $scope.sentData.referringUrl,
-        data : $scope.sentData.searchData
-      };
-      HomeService.goToNext(toSend);
-      $state.go(toSend.referringUrl);
+      if ( $scope.sentData === undefined ) {
+        $state.go('home');
+      }
+      else {
+        var toSend = {
+          referringUrl : $scope.sentData.referringUrl,
+          searchData : $scope.sentData.searchData
+        };
+        HomeService.goToNext(toSend);
+        $state.go(toSend.referringUrl);
+      }
     };
 
     $scope.contact = function(userID) {
@@ -56,7 +61,7 @@ app.controller('DetailController', [
       modalInstance.result.then(function (selectedItem) {
         $scope.selected = selectedItem;
       }, function () {
-        $log.info('Modal dismissed at: ' + new Date());
+        //$log.info('Modal dismissed at: ' + new Date());
       });
     };
   }

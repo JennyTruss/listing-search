@@ -17,29 +17,28 @@ app.controller('ListingsController', [
     $scope.searchResults = 0;
     $scope.showResults = false;
     $scope.showLoading = true;
+    var sentData = HomeService.getData();
+    $scope.searchData = sentData.searchData;
+    console.log(sentData);
+    console.log($scope.searchData);
     if ($scope.searchData === undefined) {
-      var sentData = HomeService.getData();
-      $scope.searchData = sentData.searchData;
-      console.log($scope.searchData);
-      if ( sentData.searchData === undefined ) {
-        $scope.searchData = {
-          category : {
-            id : 6000,
-            title : 'All'
-          },
-          make : {
-            id : 0,
-            title : 'Select Make to Search',
-          },
-          model : {
-            id : 0,
-            title : 'Select Model to Search'
-          },
-          keywords : '',
-          minPrice : '',
-          maxPrice : ''
-        };
-      }
+      $scope.searchData = {
+        category : {
+          id : 6000,
+          title : 'All'
+        },
+        make : {
+          id : 0,
+          title : 'Select Make to Search',
+        },
+        model : {
+          id : 0,
+          title : 'Select Model to Search'
+        },
+        keywords : '',
+        minPrice : '',
+        maxPrice : ''
+      };
     }
     $scope.listings = ListingsService.getListings($scope.searchData, 20, 1, 'StartTimeNewest');
     $timeout(function () {
@@ -54,8 +53,18 @@ app.controller('ListingsController', [
     },0);
 
     $scope.topCategories = HomeService.getTopCategories();
-    $scope.makeCategories = [{id:0, name:'Select a Category'}];
-    $scope.modelCategories = [{id:0, name:'Select a Make'}];
+    if ( $scope.searchData.category.id ) {
+      $scope.makeCategories = HomeService.getSubCategories($scope.searchData.category.id);
+    }
+    else {
+      $scope.makeCategories = [{id:0, name:'Select a Category'}];
+    }
+    if ( $scope.searchData.make.id ) {
+      $scope.modelCategories = HomeService.getSubCategories($scope.searchData.make.id);
+    }
+    else {
+      $scope.modelCategories = [{id:0, name:'Select a Make'}];
+    }
     $scope.selectCategory = function (id, type) {
       // change the appropriate element based on the selection type
       switch(type) {

@@ -11,10 +11,9 @@
 
 app.service('HomeService', [
   'eBayAPI',
-  'ZipCodeAPI',
   '$rootScope',
   '$timeout',
-  function(eBayAPI, ZipCodeAPI, $rootScope, $timeout) {
+  function(eBayAPI, $rootScope, $timeout) {
     service = {};
     // show loading animation while the calls are made
     var showLoading = true;

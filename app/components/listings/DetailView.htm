@@ -16,6 +16,7 @@
     </div>
     <div class="col-sm-6 photo-holder">
       <img ng-src="{{largeImage}}" class="center-block img-responsive" ng-show="detail.PictureURL.length">
+      <img src="assets/img/placeholder.png" class="center-block img-responsive" ng-hide="detail.PictureURL.length">
     </div>
     <div class="col-sm-3">
       <div class="card seller-info">

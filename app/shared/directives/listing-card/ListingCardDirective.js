@@ -15,7 +15,7 @@ app.directive('listingCard', [
         scope.showListing = function(itemID) {
           var toSend = {
             referringUrl : scope.$parent.currentState,
-            sendData : scope.$parent.searchData
+            searchData : scope.$parent.searchData
           };
           console.log(toSend);
           HomeService.goToNext(toSend);

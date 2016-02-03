@@ -11,8 +11,7 @@
 
 app.service('ListingsService', [
   'eBayAPI',
-  'ZipCodeAPI',
-  function(eBayAPI, ZipCodeAPI) {
+  function(eBayAPI) {
     var service = {};
 
     service.getListings = function (searchData, qty, set, sortBy) {
